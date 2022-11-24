@@ -13,7 +13,9 @@ public class Event {
     private long id;
     private String topic;
     private String description;
-    private Calendar date;
+    private Calendar day;
+    private Calendar month;
+    private Calendar year;
 
     public void setTopic(String topic) {
         this.topic = topic;
@@ -23,7 +25,15 @@ public class Event {
         this.description = description;
     }
 
-    public void setDate(Calendar date) {
-        this.date = date;
+    public void setDay(Calendar day) {
+        this.day = day;
+    }
+
+    public void setMonth(Calendar month) {
+        this.month = month;
+    }
+
+    public void setYear(Calendar year) {
+        this.year = year;
     }
 }

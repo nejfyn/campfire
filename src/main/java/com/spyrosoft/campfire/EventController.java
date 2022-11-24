@@ -20,7 +20,6 @@ public class EventController {
 
         event.setTopic("Fotografia");
         event.setDescription("cokolwiek");
-        event.setDate(11/25/2022);
 
         eventRepository.save(event);
     }
