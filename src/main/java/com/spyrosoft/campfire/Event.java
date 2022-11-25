@@ -1,39 +1,61 @@
 package com.spyrosoft.campfire;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Calendar;
 
 @Entity
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(updatable = false, nullable = false)
+    private Long id;
+    @Column
     private String topic;
+    @Column
     private String description;
-    private Calendar day;
-    private Calendar month;
-    private Calendar year;
+    @Column
+    private String author;
+//    @Column
+//    private Calendar date;
+
+
+    public Event(String topic, String description, String author) {
+        this.topic = topic;
+        this.description = description;
+        this.author = author;
+    }
 
     public void setTopic(String topic) {
         this.topic = topic;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
+    public void setAuthor(String author) { this.author = author; }
+    //    public void setDate(int year, int month, int day) { date.set(year, month, day);}
 
-    public void setDay(Calendar day) {
-        this.day = day;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setMonth(Calendar month) {
-        this.month = month;
+    public String getTopic() {
+        return topic;
     }
 
-    public void setYear(Calendar year) {
-        this.year = year;
+    public String getDescription() {
+        return description;
     }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    //    public Calendar getDate() {
+//        return date;
+//    }
+
+//    public void setDate(Calendar date) {
+//
+//    }
 }

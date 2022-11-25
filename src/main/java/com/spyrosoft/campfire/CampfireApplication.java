@@ -10,7 +10,6 @@ public class CampfireApplication {
 
 		SpringApplication.run(CampfireApplication.class, args);
 
-
 	}
 
 
