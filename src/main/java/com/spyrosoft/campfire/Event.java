@@ -1,7 +1,7 @@
 package com.spyrosoft.campfire;
 
 import javax.persistence.*;
-import java.util.Calendar;
+import java.time.LocalDateTime;
 
 @Entity
 public class Event {
@@ -15,24 +15,39 @@ public class Event {
     private String description;
     @Column
     private String author;
-//    @Column
-//    private Calendar date;
+    @Column
+    private LocalDateTime date;
+    @Column
+    private int durationInMins;
 
 
-    public Event(String topic, String description, String author) {
+    public Event(String topic, String description, String author, LocalDateTime date, int durationInMins) {
         this.topic = topic;
         this.description = description;
         this.author = author;
+        this.date = date;
+        this.durationInMins = durationInMins;
     }
+
+    public Event() {
+    }
+
+
 
     public void setTopic(String topic) {
         this.topic = topic;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
+
     public void setAuthor(String author) { this.author = author; }
-    //    public void setDate(int year, int month, int day) { date.set(year, month, day);}
+
+    public void setDate(LocalDateTime date) { this.date = date; }
+
+    public void setDurationInMins(int durationInMins) { this.durationInMins = durationInMins; }
+
 
 
     public Long getId() {
@@ -51,11 +66,7 @@ public class Event {
         return author;
     }
 
-    //    public Calendar getDate() {
-//        return date;
-//    }
+    public LocalDateTime getDate() { return date; }
 
-//    public void setDate(Calendar date) {
-//
-//    }
+    public int getDurationInMins() { return durationInMins; }
 }

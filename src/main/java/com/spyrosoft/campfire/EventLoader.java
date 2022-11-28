@@ -3,6 +3,8 @@ package com.spyrosoft.campfire;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 
 @Component
 public class EventLoader implements CommandLineRunner {
@@ -19,8 +21,8 @@ public class EventLoader implements CommandLineRunner {
 
     private void loadEvents() {
         if (eventRepository.count() == 0) {
-            Event event1 = new Event("Fotografia", "cokolwiek", "Piotr");
-            Event event2 = new Event("Morsowanie", "nic ciekawego", "Pawel");
+            Event event1 = new Event("Fotografia", "cokolwiek", "Piotr", LocalDateTime.parse("2022-11-25T09:00:00"), 30);
+            Event event2 = new Event("Wedkarstwo", "cos ciekawego", "Pawel", LocalDateTime.parse("2022-12-02T09:00:00"), 45);
             eventRepository.save(event1);
             eventRepository.save(event2);
             System.out.println("Sample events loaded");

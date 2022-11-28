@@ -9,13 +9,13 @@ import java.util.List;
 public class EventServiceImp implements EventService {
     EventRepository eventRepository;
 
-    public EventServiceImp(EventRepository eventRepository) { this.eventRepository = eventRepository; }
+    public EventServiceImp(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
 
     @Override
     public List<Event> getEvents() {
-        List<Event> events = new ArrayList<>();
-        eventRepository.findAll().forEach(events::add);
-        return events;
+        return new ArrayList<>(eventRepository.findAll());
     }
 
     @Override
@@ -35,7 +35,8 @@ public class EventServiceImp implements EventService {
         eventFromDb.setTopic(event.getTopic());
         eventFromDb.setDescription(event.getDescription());
         eventFromDb.setAuthor(event.getAuthor());
-//        eventFromDb.setDate(event.getDate());
+        eventFromDb.setDate(event.getDate());
+        eventFromDb.setDurationInMins(event.getDurationInMins());
         eventRepository.save(eventFromDb);
     }
 
