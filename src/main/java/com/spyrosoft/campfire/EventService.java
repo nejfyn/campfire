@@ -8,9 +8,9 @@ public interface EventService {
 
     Event getEventById(Long id);
 
-    Event insertEvent(Event event);
+    Event insertEvent(Event event) throws InvalidDateException;
 
-    void updateEvent(Long id, Event event);
+    void updateEvent(Long id, Event event) throws InvalidDateException;
 
     void deleteEvent(Long id);
 }

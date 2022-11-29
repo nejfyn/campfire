@@ -2,6 +2,8 @@ package com.spyrosoft.campfire;
 
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,12 +26,16 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    public Event insertEvent(Event event) {
-        return eventRepository.save(event);
+    public Event insertEvent(Event event) throws InvalidDateException {
+        if (isDateCorrect(event)) {
+            return eventRepository.save(event);
+        } else {
+            throw new InvalidDateException("");
+        }
     }
 
     @Override
-    public void updateEvent(Long id, Event event) {
+    public void updateEvent(Long id, Event event) throws InvalidDateException {
         Event eventFromDb = eventRepository.findById(id).get();
         System.out.println(eventFromDb.toString());
         eventFromDb.setTopic(event.getTopic());
@@ -37,11 +43,35 @@ public class EventServiceImp implements EventService {
         eventFromDb.setAuthor(event.getAuthor());
         eventFromDb.setDate(event.getDate());
         eventFromDb.setDurationInMins(event.getDurationInMins());
-        eventRepository.save(eventFromDb);
+        if (isDateCorrect(eventFromDb)) {
+            eventRepository.save(eventFromDb);
+        }
     }
 
     @Override
     public void deleteEvent(Long id) {
         eventRepository.deleteById(id);
+    }
+
+    private boolean isDateCorrect(Event event) throws InvalidDateException {
+        if (event.getDate().isBefore(LocalDateTime.now())) {
+            throw new InvalidDateException("Date must be in the future");
+        } else if (event.getDate().getDayOfWeek() != DayOfWeek.FRIDAY) {
+            throw new InvalidDateException("Date must be on friday");
+        } else if (isDateWithDurationAddedOccupied(getEvents(), event)) {
+            throw new InvalidDateException(("Date must be set on vacant day"));
+        } else {
+            return true;
+        }
+    }
+
+    private boolean isDateWithDurationAddedOccupied(List<Event> events, Event eventToSave) {
+        for (Event event : events) {
+            if (!event.getDate().plusMinutes(event.getDurationInMins()).isBefore(eventToSave.getDate()) &&
+                    !eventToSave.getDate().plusMinutes(eventToSave.getDurationInMins()).isBefore(event.getDate())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

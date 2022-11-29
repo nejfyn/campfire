@@ -29,17 +29,27 @@ public class EventController {
     }
 
     @PostMapping
-    public ResponseEntity<Event> saveEvent(@RequestBody Event event) {
-        Event event1 = eventService.insertEvent(event);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("event", "/event/" + event1.getId().toString());
-        return new ResponseEntity<>(event1, httpHeaders, HttpStatus.CREATED);
+    public ResponseEntity saveEvent(@RequestBody Event event) {
+        try {
+            Event event1 = eventService.insertEvent(event);
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.add("event", "/event/" + event1.getId().toString());
+            return new ResponseEntity<>(event1, httpHeaders, HttpStatus.CREATED);
+        }
+        catch (InvalidDateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping({"/{id}"})
-    public ResponseEntity<Event> updateEvent(@PathVariable("id") Long id, @RequestBody Event event) {
-        eventService.updateEvent(id, event);
-        return new ResponseEntity<>(eventService.getEventById(id), HttpStatus.OK);
+    public ResponseEntity updateEvent(@PathVariable("id") Long id, @RequestBody Event event) {
+        try {
+            eventService.updateEvent(id, event);
+            return new ResponseEntity<>(eventService.getEventById(id), HttpStatus.OK);
+        }
+        catch (InvalidDateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @DeleteMapping({"/{id}"})

@@ -10,4 +10,6 @@ class CampfireApplicationTests {
 	void contextLoads() {
 	}
 
+
+
 }

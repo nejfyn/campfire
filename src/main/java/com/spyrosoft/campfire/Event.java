@@ -1,24 +1,31 @@
 package com.spyrosoft.campfire;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name="EVENT")
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)
     private Long id;
     @Column
+    @NotEmpty
     private String topic;
     @Column
     private String description;
     @Column
+    @NotEmpty
     private String author;
     @Column
+    @NotNull
     private LocalDateTime date;
     @Column
-    private int durationInMins;
+    @NotNull
+    private Integer durationInMins;
 
 
     public Event(String topic, String description, String author, LocalDateTime date, int durationInMins) {
