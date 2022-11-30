@@ -27,11 +27,8 @@ public class EventServiceImp implements EventService {
 
     @Override
     public Event insertEvent(Event event) throws InvalidDateException {
-        if (isDateCorrect(event)) {
-            return eventRepository.save(event);
-        } else {
-            throw new InvalidDateException("");
-        }
+        validateDate(event);
+        return eventRepository.save(event);
     }
 
     @Override
@@ -43,9 +40,8 @@ public class EventServiceImp implements EventService {
         eventFromDb.setAuthor(event.getAuthor());
         eventFromDb.setDate(event.getDate());
         eventFromDb.setDurationInMins(event.getDurationInMins());
-        if (isDateCorrect(eventFromDb)) {
-            eventRepository.save(eventFromDb);
-        }
+        validateDate(eventFromDb);
+        eventRepository.save(eventFromDb);
     }
 
     @Override
@@ -53,15 +49,13 @@ public class EventServiceImp implements EventService {
         eventRepository.deleteById(id);
     }
 
-    private boolean isDateCorrect(Event event) throws InvalidDateException {
+    private void validateDate(Event event) throws InvalidDateException {
         if (event.getDate().isBefore(LocalDateTime.now())) {
             throw new InvalidDateException("Date must be in the future");
         } else if (event.getDate().getDayOfWeek() != DayOfWeek.FRIDAY) {
-            throw new InvalidDateException("Date must be on friday");
+            throw new InvalidDateException("Date must be on Friday");
         } else if (isDateWithDurationAddedOccupied(getEvents(), event)) {
-            throw new InvalidDateException(("Date must be set on vacant day"));
-        } else {
-            return true;
+            throw new InvalidDateException(("Date must be set on vacant date"));
         }
     }
 
