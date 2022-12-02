@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="EVENT")
+@Table(name = "EVENT")
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +40,6 @@ public class Event {
     }
 
 
-
     public void setTopic(String topic) {
         this.topic = topic;
     }
@@ -49,12 +48,17 @@ public class Event {
         this.description = description;
     }
 
-    public void setAuthor(String author) { this.author = author; }
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
-    public void setDate(LocalDateTime date) { this.date = date; }
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
 
-    public void setDurationInMins(int durationInMins) { this.durationInMins = durationInMins; }
-
+    public void setDurationInMins(int durationInMins) {
+        this.durationInMins = durationInMins;
+    }
 
 
     public Long getId() {
@@ -73,7 +77,11 @@ public class Event {
         return author;
     }
 
-    public LocalDateTime getDate() { return date; }
+    public LocalDateTime getDate() {
+        return date;
+    }
 
-    public int getDurationInMins() { return durationInMins; }
+    public int getDurationInMins() {
+        return durationInMins;
+    }
 }

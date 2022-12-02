@@ -82,14 +82,14 @@ class EventServiceImpTest {
         //given
         Event event = new Event("dsgsffv", "safsgfsad", "ahgfsd", LocalDateTime.now().minusHours(1), 50);
         //then
-        assertThrows(InvalidDateException.class , () -> eventService.insertEvent(event), "Date must be in the future");
+        assertThrows(InvalidDateException.class, () -> eventService.insertEvent(event), "Date must be in the future");
     }
 
     @Test
     public void TheDayIsntFriday() {
-        assertThrows(InvalidDateException.class ,
+        assertThrows(InvalidDateException.class,
                 () -> eventService.insertEvent(new Event("dsfv", "safsad", "asd", LocalDateTime.parse("2022-12-22T09:00:00"), 32)),
-               "Date must be on Friday");
+                "Date must be on Friday");
     }
 
     @Test
@@ -99,7 +99,7 @@ class EventServiceImpTest {
         Event event2 = new Event("dsfv", "safsad", "asd", LocalDateTime.now().plusMinutes(60), 40);
         eventRepository.save(event1);
         //then
-        assertThrows(InvalidDateException.class , () -> eventService.insertEvent(event2), "Date must be set on vacant date");
+        assertThrows(InvalidDateException.class, () -> eventService.insertEvent(event2), "Date must be set on vacant date");
     }
 
     @Test
@@ -109,7 +109,7 @@ class EventServiceImpTest {
         Event event2 = new Event("dwesfv", "sfdafsad", "assdd", LocalDateTime.now().plusMinutes(30), 32);
         eventRepository.save(event1);
         //then
-        assertThrows(InvalidDateException.class , () -> eventService.insertEvent(event2), "Date must be set on vacant date");
+        assertThrows(InvalidDateException.class, () -> eventService.insertEvent(event2), "Date must be set on vacant date");
     }
 
     @Test
@@ -119,7 +119,7 @@ class EventServiceImpTest {
         Event event2 = new Event("dfsfv", "safsfad", "asfd", LocalDateTime.now().plusMinutes(60), 40);
         eventRepository.save(event1);
         //then
-        assertThrows(InvalidDateException.class , () -> eventService.insertEvent(event2), "Date must be set on vacant date");
+        assertThrows(InvalidDateException.class, () -> eventService.insertEvent(event2), "Date must be set on vacant date");
     }
 
     @Test

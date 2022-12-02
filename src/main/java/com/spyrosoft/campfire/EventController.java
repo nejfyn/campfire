@@ -23,7 +23,7 @@ public class EventController {
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 
-    @GetMapping({"/{id}"})
+    @GetMapping({"/events/{id}"})
     public ResponseEntity<Event> getEvent(@PathVariable Long id) {
         return ResponseEntity.ok(eventService.getEventById(id));
     }
@@ -35,8 +35,7 @@ public class EventController {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("event", "/event/" + event1.getId().toString());
             return new ResponseEntity<>(event1, httpHeaders, HttpStatus.CREATED);
-        }
-        catch (InvalidDateException e) {
+        } catch (InvalidDateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -46,8 +45,7 @@ public class EventController {
         try {
             eventService.updateEvent(id, event);
             return new ResponseEntity<>(eventService.getEventById(id), HttpStatus.OK);
-        }
-        catch (InvalidDateException e) {
+        } catch (InvalidDateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
