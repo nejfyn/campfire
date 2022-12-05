@@ -19,15 +19,15 @@ public class SecurityConfig {
         UserDetails user1 = User
                 .withUsername("user")
                 .password(passwordEncoder().encode("password"))
-                .roles("USER")
+                .roles("USER").authorities("USER")
                 .build();
-        UserDetails user2 = User
+        UserDetails admin = User
                 .withUsername("admin")
                 .password(passwordEncoder().encode("admin"))
-                .roles("ADMIN")
+                .roles("ADMIN").authorities("ADMIN")
                 .build();
 
-        return new InMemoryUserDetailsManager(user1, user2);
+        return new InMemoryUserDetailsManager(user1, admin);
     }
 
     @Bean
@@ -36,10 +36,10 @@ public class SecurityConfig {
                 httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/event").hasAnyRole("USER", "ADMIN")
-                .antMatchers(HttpMethod.GET, "/event/events").permitAll()
-                .antMatchers(HttpMethod.PUT, "/event").hasAnyRole("USER", "ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/event").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/event").authenticated()
+                .antMatchers(HttpMethod.GET, "/event").permitAll()
+                .antMatchers(HttpMethod.PUT, "/event").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/event/**").hasAuthority("ADMIN")
                 .and()
                 .formLogin();
         return http.build();

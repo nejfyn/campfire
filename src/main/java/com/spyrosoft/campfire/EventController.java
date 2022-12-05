@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/event")
@@ -17,15 +18,19 @@ public class EventController {
         this.eventService = eventService;
     }
 
-    @GetMapping("/events")
+    @GetMapping
     public ResponseEntity<List<Event>> getAllEvents() {
         List<Event> events = eventService.getEvents();
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 
-    @GetMapping({"/events/{id}"})
-    public ResponseEntity<Event> getEvent(@PathVariable Long id) {
-        return ResponseEntity.ok(eventService.getEventById(id));
+    @GetMapping({"/{id}"})
+    public ResponseEntity getEvent(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(eventService.getEventById(id));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping
@@ -35,7 +40,7 @@ public class EventController {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("event", "/event/" + event1.getId().toString());
             return new ResponseEntity<>(event1, httpHeaders, HttpStatus.CREATED);
-        } catch (InvalidDateException e) {
+        } catch (InvalidDateException | NoSuchElementException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -45,7 +50,7 @@ public class EventController {
         try {
             eventService.updateEvent(id, event);
             return new ResponseEntity<>(eventService.getEventById(id), HttpStatus.OK);
-        } catch (InvalidDateException e) {
+        } catch (InvalidDateException | NoSuchElementException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

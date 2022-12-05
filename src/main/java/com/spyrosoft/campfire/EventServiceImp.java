@@ -6,6 +6,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class EventServiceImp implements EventService {
@@ -21,8 +22,12 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    public Event getEventById(Long id) {
-        return eventRepository.findById(id).get();
+    public Event getEventById(Long id) throws NoSuchElementException {
+        if (eventRepository.findById(id).isPresent()) {
+            return eventRepository.findById(id).get();
+        } else {
+            throw new NoSuchElementException("Such event isn't scheduled");
+        }
     }
 
     @Override
@@ -32,21 +37,32 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    public void updateEvent(Long id, Event event) throws InvalidDateException {
-        Event eventFromDb = eventRepository.findById(id).get();
-        System.out.println(eventFromDb.toString());
-        eventFromDb.setTopic(event.getTopic());
-        eventFromDb.setDescription(event.getDescription());
-        eventFromDb.setAuthor(event.getAuthor());
-        eventFromDb.setDate(event.getDate());
-        eventFromDb.setDurationInMins(event.getDurationInMins());
-        validateDate(eventFromDb);
-        eventRepository.save(eventFromDb);
+    public void updateEvent(Long id, Event event) throws InvalidDateException, NoSuchElementException {
+        if (eventRepository.findById(id).isPresent()) {
+            Event eventFromDb = eventRepository.findById(id).get();
+            System.out.println(eventFromDb.toString());
+            if (!eventFromDb.getDate().toString().equals(event.getDate().toString())) {
+                validateDate(event);
+            }
+            eventFromDb.setTopic(event.getTopic());
+            eventFromDb.setDescription(event.getDescription());
+            eventFromDb.setAuthor(event.getAuthor());
+            eventFromDb.setDate(event.getDate());
+            eventFromDb.setDurationInMins(event.getDurationInMins());
+            eventRepository.save(eventFromDb);
+        } else {
+            throw new NoSuchElementException("Such event isn't scheduled");
+        }
     }
 
     @Override
     public void deleteEvent(Long id) {
-        eventRepository.deleteById(id);
+        if (eventRepository.findById(id).isPresent()) {
+            eventRepository.deleteById(id);
+        }
+        else {
+            throw new NoSuchElementException("Such event isn't scheduled");
+        }
     }
 
     private void validateDate(Event event) throws InvalidDateException {
@@ -55,7 +71,7 @@ public class EventServiceImp implements EventService {
         } else if (event.getDate().getDayOfWeek() != DayOfWeek.FRIDAY) {
             throw new InvalidDateException("Date must be on Friday");
         } else if (isDateWithDurationAddedOccupied(getEvents(), event)) {
-            throw new InvalidDateException(("Date must be set on vacant date"));
+            throw new InvalidDateException("Date must be set on vacant date");
         }
     }
 
@@ -63,9 +79,9 @@ public class EventServiceImp implements EventService {
         for (Event event : events) {
             if (!event.getDate().plusMinutes(event.getDurationInMins()).isBefore(eventToSave.getDate()) &&
                     !eventToSave.getDate().plusMinutes(eventToSave.getDurationInMins()).isBefore(event.getDate())) {
-                return true;
+                    return true;
+                }
             }
-        }
         return false;
     }
 }
