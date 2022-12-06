@@ -1,5 +1,8 @@
-package com.spyrosoft.campfire;
+package com.spyrosoft.campfire.controllers;
 
+import com.spyrosoft.campfire.entities.Event;
+import com.spyrosoft.campfire.services.EventService;
+import com.spyrosoft.campfire.exceptions.InvalidDateException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

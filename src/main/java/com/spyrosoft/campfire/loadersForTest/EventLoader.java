@@ -1,5 +1,7 @@
-package com.spyrosoft.campfire;
+package com.spyrosoft.campfire.loadersForTest;
 
+import com.spyrosoft.campfire.entities.Event;
+import com.spyrosoft.campfire.repos.EventRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

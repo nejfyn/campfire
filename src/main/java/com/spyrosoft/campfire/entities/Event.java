@@ -1,4 +1,4 @@
-package com.spyrosoft.campfire;
+package com.spyrosoft.campfire.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;

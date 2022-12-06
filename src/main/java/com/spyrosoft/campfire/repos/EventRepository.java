@@ -1,5 +1,6 @@
-package com.spyrosoft.campfire;
+package com.spyrosoft.campfire.repos;
 
+import com.spyrosoft.campfire.entities.Event;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

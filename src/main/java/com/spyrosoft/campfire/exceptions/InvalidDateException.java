@@ -1,4 +1,4 @@
-package com.spyrosoft.campfire;
+package com.spyrosoft.campfire.exceptions;
 
 public class InvalidDateException extends Exception {
     public InvalidDateException(String message) {

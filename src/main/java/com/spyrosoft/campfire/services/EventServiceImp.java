@@ -1,5 +1,8 @@
-package com.spyrosoft.campfire;
+package com.spyrosoft.campfire.services;
 
+import com.spyrosoft.campfire.exceptions.InvalidDateException;
+import com.spyrosoft.campfire.entities.Event;
+import com.spyrosoft.campfire.repos.EventRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;

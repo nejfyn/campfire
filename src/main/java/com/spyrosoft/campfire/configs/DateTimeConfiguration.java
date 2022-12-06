@@ -1,4 +1,4 @@
-package com.spyrosoft.campfire;
+package com.spyrosoft.campfire.configs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

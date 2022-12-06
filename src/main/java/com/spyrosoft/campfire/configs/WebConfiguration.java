@@ -1,4 +1,4 @@
-package com.spyrosoft.campfire;
+package com.spyrosoft.campfire.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

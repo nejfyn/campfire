@@ -1,4 +1,7 @@
-package com.spyrosoft.campfire;
+package com.spyrosoft.campfire.services;
+
+import com.spyrosoft.campfire.exceptions.InvalidDateException;
+import com.spyrosoft.campfire.entities.Event;
 
 import java.util.List;
 
