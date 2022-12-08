@@ -22,12 +22,14 @@ public class EventController {
     }
 
     @GetMapping
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<List<Event>> getAllEvents() {
         List<Event> events = eventService.getEvents();
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 
     @GetMapping({"/{id}"})
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity getEvent(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(eventService.getEventById(id));
@@ -37,6 +39,7 @@ public class EventController {
     }
 
     @PostMapping
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity saveEvent(@RequestBody Event event) {
         try {
             Event event1 = eventService.insertEvent(event);
@@ -49,6 +52,7 @@ public class EventController {
     }
 
     @PutMapping({"/{id}"})
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity updateEvent(@PathVariable("id") Long id, @RequestBody Event event) {
         try {
             eventService.updateEvent(id, event);
@@ -59,6 +63,7 @@ public class EventController {
     }
 
     @DeleteMapping({"/{id}"})
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Event> deleteEvent(@PathVariable("id") Long id) {
         eventService.deleteEvent(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
